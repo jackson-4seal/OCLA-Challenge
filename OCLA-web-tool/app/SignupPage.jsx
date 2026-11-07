@@ -1,4 +1,4 @@
-export default function SignupPage({setSignupOpen, setLoginOpen}) {
+export default function SignupPage({setSignupOpen, setLoginOpen, setClientOpen, setProviderOpen}) {
   const passRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -36,9 +36,9 @@ export default function SignupPage({setSignupOpen, setLoginOpen}) {
         // TODO: send message
         alert("Account created successfully");
         console.log("SUCCESS");
-        setSignedUp(true);
         form.reset();
-        // TODO: redirect to appropriate home page
+        setSignupOpen(false);
+        form.role.value == "Client" ? setClientOpen(true) : setProviderOpen(true);
       } catch (error) {
         console.error("FAILED", error);
         alert("Something seems to have gone wrong. Please try again.");

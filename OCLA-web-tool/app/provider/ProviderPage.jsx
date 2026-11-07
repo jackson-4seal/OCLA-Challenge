@@ -9,6 +9,18 @@ export default function ProviderPage() {
         <p>Saved Information:</p>
         <section>
           <div className="flex">
+            <p className="font-bold w-50">Provider Name:</p>
+            <p>---</p>
+          </div>
+          <div className="flex">
+            <p className="font-bold w-50">Address:</p>
+            <p>---</p>
+          </div>
+          <div className="flex">
+            <p className="font-bold w-50">Availability:</p>
+            <p>---</p>
+          </div>
+          <div className="flex">
             <p className="font-bold w-50">Supported Case Types:</p>
             <p>---</p>
           </div>
@@ -24,6 +36,7 @@ export default function ProviderPage() {
       </section>
 
       <ProviderForm />
+
     </section>
   );
 }

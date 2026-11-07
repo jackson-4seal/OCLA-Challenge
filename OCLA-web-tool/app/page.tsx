@@ -40,8 +40,8 @@ export default function Home() {
         </div>
       </div>
 
-      {signupOpen && <SignupPage setLoginOpen={setLoginOpen} setSignupOpen={setSignupOpen} />}
-      {loginOpen && <LoginPage setLoginOpen={setLoginOpen} setSignupOpen={setSignupOpen} />}
+      {signupOpen && <SignupPage setLoginOpen={setLoginOpen} setSignupOpen={setSignupOpen} setClientOpen={setClientOpen} setProviderOpen={setProviderOpen} />}
+      {loginOpen && <LoginPage setLoginOpen={setLoginOpen} setSignupOpen={setSignupOpen} setClientOpen={setClientOpen} setProviderOpen={setProviderOpen} />}
       {clientOpen && <ClientPage />}
       {providerOpen && <ProviderPage />}
     </main>

@@ -1,17 +1,17 @@
-export default function LoginPage({setSignupOpen, setLoginOpen}) {
+export default function LoginPage({setSignupOpen, setLoginOpen, setClientOpen, setProviderOpen}) {
   const login = (event) => {
     event.preventDefault();
     const form = document.getElementById("login-form");
 
     // Form validation
     function validateMessage() {
-      if (form && !form.id.value) {
+      if (form && (!form.user.value || ! form.pass.value)) {
         alert(
           "Please fill out all required information before sending your message.",
         );
         return false;
       }
-      // TODO: check if user ID is valid
+      // TODO: check if username and password exist
       return true;
     }
 
@@ -20,7 +20,11 @@ export default function LoginPage({setSignupOpen, setLoginOpen}) {
         alert("Log in successful");
         console.log("SUCCESS");
         form.reset();
-        // TODO: redirect to appropriate home page
+        setSignupOpen(false);
+        // ___ == "Client" ? setClientOpen(true) : setProviderOpen(true);
+        // TODO: redirect to appropriate home page instead of both
+        setClientOpen(true);
+        setProviderOpen(true);
       } catch (error) {
         console.error("FAILED", error);
         alert("Something seems to have gone wrong. Please try again.");
@@ -40,10 +44,16 @@ export default function LoginPage({setSignupOpen, setLoginOpen}) {
             className="flex flex-col p-6 gap-6 w-120"
           >
             <div>
-            <label htmlFor="id" className="flex">
-              <p className="w-60 font-bold mb-2">Input your User ID below:</p>
+            <label htmlFor="user" className="flex">
+              <p className="w-60 font-bold mb-2">Username:</p>
             </label>
-            <input type="text" name="id" id="id" className="border w-full"/>
+            <input type="text" name="user" id="user" className="border w-full"/>
+            </div>
+            <div>
+            <label htmlFor="pass" className="flex">
+              <p className="w-60 font-bold mb-2">Password:</p>
+            </label>
+            <input type="text" name="pass" id="pass" className="border w-full"/>
             </div>
 
             <input

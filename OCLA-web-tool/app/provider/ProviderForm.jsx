@@ -10,7 +10,7 @@ export default function ProviderForm() {
 
     // Form validation
     function validateMessage() {
-      if (form && (!form.type.value || !form.primarycounty.value)) {
+      if (form && (!form.type.value || !form.primarycounty.value || form.name.value || form.addr.value)) {
         alert(
           "Please fill out all required information before sending your message.",
         );
@@ -53,6 +53,30 @@ export default function ProviderForm() {
             onSubmit={updateInfo}
             className="flex flex-col p-6 gap-6 w-120"
           >
+            <div>
+              <label htmlFor="name" className="flex">
+                <p className="w-60 font-bold mb-2">Provider Name:</p>
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                className="border w-full"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="addr" className="flex">
+                <p className="w-60 font-bold mb-2">Address:</p>
+              </label>
+              <input
+                type="text"
+                name="addr"
+                id="addr"
+                className="border w-full"
+              />
+            </div>
+
             <label htmlFor="type" className="flex">
               <p className="w-60 font-bold">Supported Case Types:</p>
               <select name="type" multiple={true} required>
