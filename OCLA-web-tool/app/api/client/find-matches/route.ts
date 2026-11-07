@@ -4,32 +4,45 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
     try {
-        
-        const body = await req.json();
-        console.log(body);
+        console.log(await db.orm.public.Connection.all());
+        const { county, caseType } = await req.json();
+        console.log(county, caseType);
 
-        const results = await db.connection.findMany({
-            where: {
-                county: body.county,
-                attorney: {
-                    area: body.caseType,
-                },
-            },
-            select: {
-                isPrimary: true,
-                attorney: {
-                    select: {
-                        name: true,
-                        address: true,
-                        location: true,
-                    },
-                },
-            },
-        });
+        console.log(db);
+        const results = await db.orm.public.Connection
+            .where({county})
+            .include("attorney")
+            .all();
+        //     where: {
+        //         county: body.county,
+        //         attorney: {
+        //             area: body.caseType,
+        //         },
+        //     },
+        //     select: {
+        //         isPrimary: true,
+        //         attorney: {
+        //             select: {
+        //                 name: true,
+        //                 address: true,
+        //                 location: true,
+        //             },
+        //         },
+        //     },
+        // });
 
-        return NextResponse.json({
-            attorneys: results
-        });
+        const attorneys = results
+       .filter((c) => c.attorney.area === caseType)
+       .map((c) => ({
+        isPrimary: c.isPrimary,
+        attorney: {
+          name: c.attorney.name,
+          address: c.attorney.address,
+          location: c.attorney.location,
+        },
+      }))
+
+        return NextResponse.json({ attorneys });
 
     } catch (error) {
         console.error(error);
