@@ -1,9 +1,15 @@
 import ProviderForm from "./ProviderForm";
+import MatchForProvider from "../MatchForProvider";
 
 export default function ProviderPage() {
   return (
     <section className="p-4 m-6 rounded-lg border flex flex-col gap-12">
       <h1>Hello, Provider!</h1>
+
+      <div>
+        <p>New Matches:</p>
+        <MatchForProvider />
+      </div>
 
       <section>
         <p>Saved Information:</p>
