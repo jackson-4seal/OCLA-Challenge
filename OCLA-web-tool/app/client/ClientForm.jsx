@@ -19,9 +19,33 @@ export default function ClientForm() {
       return true;
     }
 
+    async function passSubmit() {
+      const response = await fetch("/api/client/find-matches", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          county: {
+            value: form.county.value,
+          },
+          caseType: {
+            value: form.type.value,
+          },
+        })
+      });
+
+      const attorneys = await response.json();
+      console.log(attorneys);
+    }
+
+    
+
     if (validateMessage()) {
       try {
         // TODO: send message
+        passSubmit();
+
         alert("Form submit successfully");
         console.log("SUCCESS");
         form.reset();
