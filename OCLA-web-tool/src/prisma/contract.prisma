@@ -1,0 +1,33 @@
+// use prisma-8
+
+enum caseType { 
+  TRANSFER
+  DISCHARGE
+  NEGLECT
+}
+
+model Form {
+  id        Int               @id @default(autoincrement())
+  date      DateTime              @default(now()) @onCreate(now())
+  county    String
+  case      caseType
+}
+
+model Attorney {
+  id        Int               @id @default(autoincrement())
+  name      String
+  monthly   Int
+  caseLoad  Int
+  address   String
+  location  String
+  area      caseType
+}
+
+model Connection {
+  connID    Int               @id @default(autoincrement())
+  attID     Int
+  county    String
+  isPrimary Boolean
+
+  attorney  Attorney @relation(fields: [attID], references: [id])
+}

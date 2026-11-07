@@ -1,0 +1,266 @@
+[
+  {
+    "id": "schema.public",
+    "label": "Create schema \"public\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres"
+    },
+    "precheck": [],
+    "execute": [
+      {
+        "description": "Create schema \"public\"",
+        "sql": "CREATE SCHEMA IF NOT EXISTS \"public\"",
+        "params": []
+      }
+    ],
+    "postcheck": []
+  },
+  {
+    "id": "table.Attorney",
+    "label": "Create table \"Attorney\"",
+    "summary": "Creates table \"Attorney\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Attorney"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Attorney\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Attorney\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"Attorney\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Attorney\"",
+        "sql": "CREATE TABLE \"public\".\"Attorney\" (\n  \"address\" text NOT NULL,\n  \"area\" text NOT NULL,\n  \"caseLoad\" int4 NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"location\" text NOT NULL,\n  \"monthly\" int4 NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Attorney_area_check_372f4233\" CHECK (\"area\" IN ('TRANSFER', 'DISCHARGE', 'NEGLECT'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Attorney\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"Attorney\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"Attorney\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.Connection",
+    "label": "Create table \"Connection\"",
+    "summary": "Creates table \"Connection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Connection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Connection\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Connection\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"Connection\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Connection\"",
+        "sql": "CREATE TABLE \"public\".\"Connection\" (\n  \"attID\" int4 NOT NULL,\n  \"connID\" SERIAL NOT NULL,\n  \"county\" text NOT NULL,\n  \"isPrimary\" bool NOT NULL,\n  PRIMARY KEY (\"connID\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Connection\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"Connection\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"Connection\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.Form",
+    "label": "Create table \"Form\"",
+    "summary": "Creates table \"Form\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "Form"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Form\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Form\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"Form\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"Form\"",
+        "sql": "CREATE TABLE \"public\".\"Form\" (\n  \"case\" text NOT NULL,\n  \"county\" text NOT NULL,\n  \"date\" timestamptz(3) DEFAULT (now()) NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  PRIMARY KEY (\"id\"),\n  CONSTRAINT \"Form_case_check_ba0806b1\" CHECK (\"case\" IN ('TRANSFER', 'DISCHARGE', 'NEGLECT'))\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"Form\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"Form\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"Form\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "index.Connection.Connection_attID_idx_500ffb83",
+    "label": "Create index \"Connection_attID_idx_500ffb83\" on \"Connection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "Connection_attID_idx_500ffb83",
+        "table": "Connection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Connection_attID_idx_500ffb83\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Connection_attID_idx_500ffb83\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Connection_attID_idx_500ffb83\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"Connection_attID_idx_500ffb83\"",
+        "sql": "CREATE INDEX \"Connection_attID_idx_500ffb83\" ON \"public\".\"Connection\" (\"attID\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"Connection_attID_idx_500ffb83\" exists on \"Connection\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"Connection_attID_idx_500ffb83\"",
+          "i",
+          "I",
+          "\"public\".\"Connection\"",
+          "btree",
+          "[\"attID\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.Connection.Connection_attID_fkey",
+    "label": "Add foreign key \"Connection_attID_fkey\" on \"Connection\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "Connection_attID_fkey",
+        "table": "Connection"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"Connection_attID_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Connection_attID_fkey",
+          "public",
+          "\"public\".\"Connection\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"Connection_attID_fkey\" on \"Connection\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"Connection_attID_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"Connection\"\nADD CONSTRAINT \"Connection_attID_fkey\"\nFOREIGN KEY (\"attID\")\nREFERENCES \"public\".\"Attorney\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"Connection_attID_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "Connection_attID_fkey",
+          "public",
+          "\"public\".\"Connection\"",
+          "f",
+          "[\"attID\"]",
+          "\"public\".\"Attorney\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  }
+]
