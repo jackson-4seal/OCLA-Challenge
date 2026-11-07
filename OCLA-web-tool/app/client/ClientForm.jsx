@@ -19,9 +19,29 @@ export default function ClientForm() {
       return true;
     }
 
+    async function passSubmit() {
+      const response = await fetch("/api/client/find-matches", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          county: form.county.value,
+          caseType: form.type.value,
+        })
+      });
+
+      const attorneys = await response.json();
+      console.log(attorneys);
+    }
+
+    
+
     if (validateMessage()) {
       try {
         // TODO: send message
+        passSubmit();
+
         alert("Form submit successfully");
         console.log("SUCCESS");
         form.reset();
@@ -59,13 +79,13 @@ export default function ClientForm() {
                 <option value="" className="text-gray-700">
                   Choose One
                 </option>
-                <option value="transfer" className="font-bold">
+                <option value="TRANSFER" className="font-bold">
                   Transfer
                 </option>
-                <option value="discharge" className="font-bold">
+                <option value="DISCHARGE" className="font-bold">
                   Discharge
                 </option>
-                <option value="abuse" className="font-bold">
+                <option value="NEGLECT" className="font-bold">
                   Abuse
                 </option>
                 <option value="other" className="font-bold">
