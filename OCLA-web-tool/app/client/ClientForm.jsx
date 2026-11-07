@@ -26,12 +26,8 @@ export default function ClientForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          county: {
-            value: form.county.value,
-          },
-          caseType: {
-            value: form.type.value,
-          },
+          county: form.county.value,
+          caseType: form.type.value,
         })
       });
 
@@ -83,13 +79,13 @@ export default function ClientForm() {
                 <option value="" className="text-gray-700">
                   Choose One
                 </option>
-                <option value="transfer" className="font-bold">
+                <option value="TRANSFER" className="font-bold">
                   Transfer
                 </option>
-                <option value="discharge" className="font-bold">
+                <option value="DISCHARGE" className="font-bold">
                   Discharge
                 </option>
-                <option value="abuse" className="font-bold">
+                <option value="NEGLECT" className="font-bold">
                   Abuse
                 </option>
                 <option value="other" className="font-bold">
