@@ -2,7 +2,7 @@ import ProviderForm from "./ProviderForm";
 
 export default function ProviderPage() {
   return (
-    <div className="p-4 m-6 rounded-lg border flex flex-col gap-12">
+    <section className="p-4 m-6 rounded-lg border flex flex-col gap-12">
       <h1>Hello, Provider!</h1>
 
       <section>
@@ -24,6 +24,6 @@ export default function ProviderPage() {
       </section>
 
       <ProviderForm />
-    </div>
+    </section>
   );
 }
