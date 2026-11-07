@@ -20,6 +20,7 @@ export default function LoginPage({setSignupOpen, setLoginOpen, setClientOpen, s
         alert("Log in successful");
         console.log("SUCCESS");
         form.reset();
+        setLoginOpen(false);
         setSignupOpen(false);
         // ___ == "Client" ? setClientOpen(true) : setProviderOpen(true);
         // TODO: redirect to appropriate home page instead of both

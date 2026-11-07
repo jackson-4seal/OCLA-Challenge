@@ -38,6 +38,7 @@ export default function SignupPage({setSignupOpen, setLoginOpen, setClientOpen, 
         console.log("SUCCESS");
         form.reset();
         setSignupOpen(false);
+        setLoginOpen(false);
         form.role.value == "Client" ? setClientOpen(true) : setProviderOpen(true);
       } catch (error) {
         console.error("FAILED", error);
