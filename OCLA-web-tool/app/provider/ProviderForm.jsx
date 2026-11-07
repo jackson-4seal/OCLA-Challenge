@@ -10,7 +10,13 @@ export default function ProviderForm() {
 
     // Form validation
     function validateMessage() {
-      if (form && (!form.type.value || !form.primarycounty.value || form.name.value || form.addr.value)) {
+      if (
+        form &&
+        (!form.type.value ||
+          !form.primarycounty.value ||
+          form.name.value ||
+          form.addr.value)
+      ) {
         alert(
           "Please fill out all required information before sending your message.",
         );
@@ -19,9 +25,35 @@ export default function ProviderForm() {
       return true;
     }
 
+    async function passSubmit() {
+      const response = await fetch("/api/provider/find-matches", {
+        method: "SET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: {
+            value: form.name.value,
+          },
+          location: {
+            value: form.addr.value,
+          },
+          caseType: {
+            value: form.type.value,
+          },
+          capacity: {
+            value: form.cap.value,
+          }
+        }),
+      });
+
+      const providers = await response.json();
+      console.log(providers);
+    }
+
     if (validateMessage()) {
       try {
-        // TODO: send message
+        passSubmit();
         alert("Form submit successfully");
         console.log("SUCCESS");
         form.reset();
@@ -120,6 +152,17 @@ export default function ProviderForm() {
                   </option>
                 ))}
               </select>
+            </label>
+
+            <label htmlFor="cap" className="flex">
+              <p className="w-60 font-bold mb-2">Montly Capacity:</p>
+              <input
+                type="number"
+                min="0"
+                name="cap"
+                id="cap"
+                className="border w-full"
+              />
             </label>
 
             <input
